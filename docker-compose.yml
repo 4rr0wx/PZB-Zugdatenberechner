@@ -25,6 +25,14 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/${POSTGRES_DB:-pzb}
       CORS_ORIGINS: http://localhost:8080
+      ENABLE_OTEL: ${ENABLE_OTEL:-false}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://signoz-otel-collector:4318}
+      OTEL_EXPORTER_OTLP_HEADERS: ${OTEL_EXPORTER_OTLP_HEADERS:-}
+      OTEL_EXPORTER_OTLP_INSECURE: ${OTEL_EXPORTER_OTLP_INSECURE:-true}
+      OTEL_EXPORTER_OTLP_TIMEOUT: ${OTEL_EXPORTER_OTLP_TIMEOUT:-10}
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-pzbbuilder-backend}
+      OTEL_RESOURCE_ATTRIBUTES: ${OTEL_RESOURCE_ATTRIBUTES:-}
+      OTEL_RESOURCE_ATTRIBUTES_DEPLOYMENT_ENV: ${OTEL_RESOURCE_ATTRIBUTES_DEPLOYMENT_ENV:-development}
     depends_on:
       db:
         condition: service_healthy

@@ -85,12 +85,31 @@ Coolify will build each service, run the Compose stack, and expose the frontend 
 
 Interactive documentation is available at `/docs` when the backend is running.
 
+## Observability (SigNoz / OpenTelemetry)
+
+- The backend is instrumented with OpenTelemetry (traces, metrics, logs) and can export data to your SigNoz OTLP HTTP collector.
+- Set the following variables (e.g. in `.env`) before starting the stack:
+
+  ```bash
+  ENABLE_OTEL=true
+  OTEL_EXPORTER_OTLP_ENDPOINT=http://your-signoz-host:4318
+  OTEL_EXPORTER_OTLP_HEADERS=api-key=YOUR_API_KEY # optional
+  OTEL_EXPORTER_OTLP_INSECURE=true                # set to false when using TLS
+  OTEL_SERVICE_NAME=pzbbuilder-backend
+  OTEL_RESOURCE_ATTRIBUTES_DEPLOYMENT_ENV=production
+  ```
+
+- After enabling, traces will cover FastAPI requests, SQLModel/SQLAlchemy database calls, and structured logs. Metrics are exported via OTLP as well.
+- Frontend logs remain on the client; consider adding browser-side telemetry if needed.
+
 ## Configuration
 
 Backend configuration is driven by environment variables:
 
 - `DATABASE_URL` – SQLAlchemy connection string.
 - `CORS_ORIGINS` – Comma-separated list of allowed origins (defaults to `http://localhost:5173` in dev, `http://localhost:8080` in Compose).
+- `ENABLE_OTEL` – Toggle OpenTelemetry instrumentation (`false` by default).
+- `OTEL_EXPORTER_OTLP_*` – Configure SigNoz/OTLP exporter details.
 
 Frontend configuration uses Vite variables at build time:
 

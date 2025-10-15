@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .api.routes import router
 from .core.config import get_settings
-from .core.database import init_db
+from .core.database import engine, init_db
+from .telemetry import configure_telemetry
 
 settings = get_settings()
 
@@ -16,6 +17,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+configure_telemetry(app=app, engine=engine)
 
 
 @app.on_event("startup")
