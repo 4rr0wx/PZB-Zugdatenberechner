@@ -12,6 +12,7 @@ import {
 } from "./api";
 import type { Train, TrainCalculation, Wagon, WagonPayload, TrainPayload } from "./types";
 import WagonTrack from "./components/WagonTrack";
+import SplashScreen from "./components/SplashScreen";
 
 interface WagonFormState extends WagonPayload {}
 
@@ -37,6 +38,7 @@ function App() {
   const [newTrainForm, setNewTrainForm] = useState<TrainPayload>({ name: "", description: "" });
   const [cloneCount, setCloneCount] = useState<number>(1);
   const [isReordering, setIsReordering] = useState<boolean>(false);
+  const [showSplash, setShowSplash] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
@@ -49,6 +51,8 @@ function App() {
       } catch (err) {
         setError("Konnte Züge nicht laden.");
         console.error(err);
+      } finally {
+        setTimeout(() => setShowSplash(false), 1500);
       }
     })();
   }, []);
@@ -198,6 +202,7 @@ function App() {
 
   return (
     <div className="app">
+      <SplashScreen isReady={!showSplash} />
       <h1>PZB Zudatenberechner</h1>
       <p>Erstelle einen Zug, erfasse Wagen und erhalte die drei PZB-Eingabewerte.</p>
 
@@ -381,7 +386,7 @@ function App() {
                   </thead>
                   <tbody>
                     {wagons.map((wagon) => (
-                      <tr key={wagon.id}>
+                      <tr key={wagon.id} className="wagons-row">
                         <td>{wagon.position}</td>
                         <td>{wagon.identifier ?? "—"}</td>
                         <td>{wagon.length_m.toFixed(2)}</td>

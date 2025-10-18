@@ -38,6 +38,15 @@ Services:
 
 The frontend container includes an Nginx reverse proxy that forwards `/api/*` requests to the backend, so no extra proxy is required.
 
+### Public Hosting Checklist
+
+When deploying to a public URL (Coolify, Docker hosts, etc.), make sure to:
+
+- Set `CORS_ORIGINS` in `.env` to your public frontend domain (comma separated for multiple domains).
+- Adjust `VITE_API_BASE` in `frontend/.env` (or build args) to point to the public backend URL.
+- Configure SSL termination at your reverse proxy/load balancer for HTTPS.
+- Optionally enable OpenTelemetry (`ENABLE_OTEL=true`) so you can observe production traffic in SigNoz.
+
 ## Local Development (non-container)
 
 ### Backend
@@ -107,13 +116,13 @@ Interactive documentation is available at `/docs` when the backend is running.
 Backend configuration is driven by environment variables:
 
 - `DATABASE_URL` – SQLAlchemy connection string.
-- `CORS_ORIGINS` – Comma-separated list of allowed origins (defaults to `http://localhost:5173` in dev, `http://localhost:8080` in Compose).
+- `CORS_ORIGINS` – Comma-separated list of allowed origins (defaults to `http://localhost:5173` in dev and `http://localhost:8080` in Compose; set to your public domain for production).
 - `ENABLE_OTEL` – Toggle OpenTelemetry instrumentation (`false` by default).
 - `OTEL_EXPORTER_OTLP_*` – Configure SigNoz/OTLP exporter details.
 
 Frontend configuration uses Vite variables at build time:
 
-- `VITE_API_BASE` – Base path for API calls (`/api` by default so Nginx can proxy).
+- `VITE_API_BASE` – Base path for API calls (`/api` by default so Nginx can proxy); override in `frontend/.env` with your public backend URL for public deployments.
 
 ## Roadmap / Next Steps
 
