@@ -6,9 +6,10 @@ interface WagonTrackProps {
   wagons: Wagon[];
   onReorder: (ids: number[]) => Promise<void>;
   isReordering: boolean;
+  className?: string;
 }
 
-const WagonTrack = ({ wagons, onReorder, isReordering }: WagonTrackProps) => {
+const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackProps) => {
   const [items, setItems] = useState<Wagon[]>([]);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const WagonTrack = ({ wagons, onReorder, isReordering }: WagonTrackProps) => {
   };
 
   return (
-    <div className="card">
+    <div className={className ?? "card"}>
       <h2>Grafische Wagenübersicht</h2>
       <p>Ziehe Wagen, um die Reihenfolge zu ändern. Änderungen werden direkt übernommen.</p>
       <div className={`wagon-track${isReordering ? " is-reordering" : ""}`}>

@@ -209,7 +209,7 @@ function App() {
       {error && <div className="card error">{error}</div>}
 
       <div className="stack">
-        <div className="card">
+        <div className="card card--trains">
           <h2>Züge</h2>
           <div className="button-row">
             <select
@@ -255,10 +255,15 @@ function App() {
         </div>
 
         {wagons.length > 0 && (
-          <WagonTrack wagons={wagons} onReorder={handleReorderWagons} isReordering={isReordering} />
+          <WagonTrack
+            wagons={wagons}
+            onReorder={handleReorderWagons}
+            isReordering={isReordering}
+            className="card card--track"
+          />
         )}
 
-        <div className="card">
+        <div className="card card--form">
           <h2>Wagen erfassen</h2>
           <div className="stack">
             <div className="field">
@@ -346,7 +351,7 @@ function App() {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card card--wagonlist">
           <h2>Wagenübersicht</h2>
           {wagons.length === 0 ? (
             <p>Noch keine Wagen erfasst.</p>
@@ -369,7 +374,7 @@ function App() {
                   }}
                 />
               </div>
-              <div style={{ overflowX: "auto" }}>
+              <div className="wagons-table-container">
                 <table className="wagons-table">
                   <thead>
                     <tr>
@@ -412,7 +417,7 @@ function App() {
           )}
         </div>
 
-        <div className="card">
+        <div className="card card--summary">
           <h2>Ergebnis für PZB</h2>
           {calc ? (
             <div className="summary-grid">
