@@ -1,5 +1,3 @@
-# PZB Zudatenberechner
-
 Full-stack web application to capture train compositions, clone wagons with identical characteristics, and calculate the three PZB input values (train length, train weight, braking percentage/Bremshundertstel). The project ships with a Docker Compose stack so it can be deployed to platforms such as [Coolify](https://coolify.io) directly from this repository.
 
 ## Tech Stack
