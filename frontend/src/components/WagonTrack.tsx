@@ -55,15 +55,6 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
                   const isCab = wagon.wagon_type === "locomotive" || wagon.wagon_type === "control_car";
                   const isFront = index === 0 && isCab;
                   const isRear = index === items.length - 1 && isCab;
-                  const baseClassNames = [
-                    "wagon-card",
-                    `wagon-card--${wagon.wagon_type}`,
-                    isFront ? "wagon-card--cab-front" : "",
-                    isRear ? "wagon-card--cab-rear" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ");
-
                   return (
                     <Draggable
                       key={wagon.id}
@@ -71,93 +62,109 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
                       index={index}
                       isDragDisabled={isReordering}
                     >
-                      {(dragProvided, snapshot) => (
-                        <div
-                          ref={dragProvided.innerRef}
-                          {...dragProvided.draggableProps}
-                          {...dragProvided.dragHandleProps}
-                          className={`${baseClassNames}${snapshot.isDragging ? " is-dragging" : ""}`}
-                          style={dragProvided.draggableProps.style}
-                          data-front={isFront}
-                          data-rear={isRear}
-                        >
-                          {wagon.wagon_type === "locomotive" && (
-                            <svg
-                              className="wagon-card__pantograph"
-                              viewBox="0 0 120 80"
-                              role="presentation"
-                              focusable="false"
-                              aria-hidden="true"
+                      {(dragProvided, snapshot) => {
+                        const cardClassNames = [
+                          "wagon-card",
+                          `wagon-card--${wagon.wagon_type}`,
+                          isFront ? "wagon-card--cab-front" : "",
+                          isRear ? "wagon-card--cab-rear" : "",
+                          snapshot.isDragging ? "is-dragging" : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ");
+
+                        return (
+                          <div
+                            ref={dragProvided.innerRef}
+                            {...dragProvided.draggableProps}
+                            className="wagon-card-wrapper"
+                            style={dragProvided.draggableProps.style}
+                          >
+                            {wagon.wagon_type === "locomotive" && (
+                              <svg
+                                className="wagon-card__pantograph"
+                                viewBox="0 0 120 80"
+                                role="presentation"
+                                focusable="false"
+                                aria-hidden="true"
+                              >
+                                <polyline
+                                  points="20 56 60 18 100 56"
+                                  stroke="#1d4ed8"
+                                  strokeWidth="6"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  fill="none"
+                                />
+                                <polyline
+                                  points="30 56 60 34 90 56"
+                                  stroke="#1d4ed8"
+                                  strokeWidth="4"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  fill="none"
+                                />
+                                <line
+                                  x1="34"
+                                  y1="16"
+                                  x2="86"
+                                  y2="16"
+                                  stroke="#1d4ed8"
+                                  strokeWidth="6"
+                                  strokeLinecap="round"
+                                />
+                                <line
+                                  x1="44"
+                                  y1="62"
+                                  x2="76"
+                                  y2="62"
+                                  stroke="#1f2937"
+                                  strokeWidth="6"
+                                  strokeLinecap="round"
+                                />
+                                <line
+                                  x1="60"
+                                  y1="62"
+                                  x2="60"
+                                  y2="76"
+                                  stroke="#1f2937"
+                                  strokeWidth="5"
+                                  strokeLinecap="round"
+                                />
+                                <circle cx="48" cy="62" r="4" fill="#475569" />
+                                <circle cx="72" cy="62" r="4" fill="#475569" />
+                              </svg>
+                            )}
+                            <div
+                              {...dragProvided.dragHandleProps}
+                              className={cardClassNames}
+                              data-front={isFront}
+                              data-rear={isRear}
                             >
-                              <polyline
-                                points="20 56 60 18 100 56"
-                                stroke="#1d4ed8"
-                                strokeWidth="6"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                fill="none"
-                              />
-                              <polyline
-                                points="30 56 60 34 90 56"
-                                stroke="#1d4ed8"
-                                strokeWidth="4"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                fill="none"
-                              />
-                              <line
-                                x1="34"
-                                y1="16"
-                                x2="86"
-                                y2="16"
-                                stroke="#1d4ed8"
-                                strokeWidth="6"
-                                strokeLinecap="round"
-                              />
-                              <line
-                                x1="44"
-                                y1="62"
-                                x2="76"
-                                y2="62"
-                                stroke="#1f2937"
-                                strokeWidth="6"
-                                strokeLinecap="round"
-                              />
-                              <line
-                                x1="60"
-                                y1="62"
-                                x2="60"
-                                y2="76"
-                                stroke="#1f2937"
-                                strokeWidth="5"
-                                strokeLinecap="round"
-                              />
-                              <circle cx="48" cy="62" r="4" fill="#475569" />
-                              <circle cx="72" cy="62" r="4" fill="#475569" />
-                            </svg>
-                          )}
-                          <div className="wagon-card__header">
-                            <span className="wagon-card__position">{index + 1}</span>
-                            <span
-                              className={`type-pill type-pill--${wagon.wagon_type}`}
-                              title={TYPE_META[wagon.wagon_type].label}
-                            >
-                              <span className="type-pill__icon">{TYPE_META[wagon.wagon_type].icon}</span>
-                              {TYPE_META[wagon.wagon_type].shortLabel}
-                            </span>
+                              <div className="wagon-card__header">
+                                <span className="wagon-card__position">{index + 1}</span>
+                                <span
+                                  className={`type-pill type-pill--${wagon.wagon_type}`}
+                                  title={TYPE_META[wagon.wagon_type].label}
+                                >
+                                  <span className="type-pill__icon">{TYPE_META[wagon.wagon_type].icon}</span>
+                                  {TYPE_META[wagon.wagon_type].shortLabel}
+                                </span>
+                              </div>
+                              <div className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</div>
+                              <div className="wagon-card__metrics">
+                                <span>{wagon.length_m.toFixed(1)} m</span>
+                                <span>{(wagon.tare_weight_t + wagon.load_weight_t).toFixed(0)} t</span>
+                                <span>BrH: {wagon.braked_weight_t.toFixed(0)}</span>
+                              </div>
+                              <div className="wagon-card__footer">
+                                <span>Bremse: {wagon.brake_type ?? "?"}</span>
+                                <span>Achs.: {wagon.axle_count ?? "?"}</span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</div>
-                          <div className="wagon-card__metrics">
-                            <span>{wagon.length_m.toFixed(1)} m</span>
-                            <span>{(wagon.tare_weight_t + wagon.load_weight_t).toFixed(0)} t</span>
-                            <span>BrH: {wagon.braked_weight_t.toFixed(0)}</span>
-                          </div>
-                          <div className="wagon-card__footer">
-                            <span>Bremse: {wagon.brake_type ?? "?"}</span>
-                            <span>Achs.: {wagon.axle_count ?? "?"}</span>
-                          </div>
-                        </div>
-                      )}
+                        );
+                      }}
                     </Draggable>
                   );
                 })}

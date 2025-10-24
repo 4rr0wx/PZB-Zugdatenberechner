@@ -442,6 +442,12 @@ input[type="number"] {
   transform: rotate(-1deg) scale(1.01);
 }
 
+.wagon-card-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
 .wagon-card--locomotive {
   overflow: visible;
 }
