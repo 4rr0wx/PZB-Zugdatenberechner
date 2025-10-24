@@ -410,10 +410,12 @@ input[type="number"] {
 }
 
 .wagon-card {
+  position: relative;
+  overflow: hidden;
   background: #ffffff;
   border-radius: 14px;
   padding: 1rem 1.1rem;
-  min-width: 200px;
+  min-width: 220px;
   box-shadow: 0 10px 25px -18px rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(148, 163, 184, 0.35);
   display: flex;
@@ -459,6 +461,102 @@ input[type="number"] {
   justify-content: space-between;
   font-size: 0.9rem;
   color: #475569;
+}
+
+.wagon-card::after,
+.wagon-card::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.wagon-card--locomotive {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 45%, #1d4ed8 100%);
+  color: #f8fafc;
+}
+
+.wagon-card--locomotive::before {
+  top: -14px;
+  left: 50%;
+  width: 70px;
+  height: 24px;
+  border-radius: 12px;
+  border: 3px solid rgba(148, 163, 184, 0.85);
+  transform: translateX(-50%);
+  background: transparent;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.25);
+}
+
+.wagon-card--locomotive::after {
+  top: -2px;
+  left: 50%;
+  width: 44px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.85), rgba(59, 130, 246, 0.65));
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.35);
+}
+
+.wagon-card--control_car {
+  background: linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%);
+  color: #ecfeff;
+}
+
+.wagon-card--control_car::before {
+  content: "";
+  width: 60px;
+  height: 80px;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.85) 0%, transparent 65%);
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  transform: rotate(-15deg);
+}
+
+.wagon-card--control_car::after {
+  bottom: -8px;
+  left: -6px;
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.25), transparent 70%);
+  transform: rotate(8deg);
+}
+
+.wagon-card--passenger {
+  background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 60%, #a855f7 100%);
+  color: #f5f3ff;
+}
+
+.wagon-card--passenger::before {
+  inset: 0.75rem;
+  border-radius: 10px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.35) 0,
+    rgba(255, 255, 255, 0.35) 12px,
+    rgba(79, 70, 229, 0.2) 12px,
+    rgba(79, 70, 229, 0.2) 24px
+  );
+  opacity: 0.6;
+}
+
+.wagon-card--freight {
+  background: linear-gradient(125deg, #b45309 0%, #f59e0b 55%, #d97706 100%);
+  color: #fff7ed;
+}
+
+.wagon-card--freight::before {
+  inset: 0.5rem;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(30, 41, 59, 0.18) 0,
+    rgba(30, 41, 59, 0.18) 14px,
+    rgba(234, 179, 8, 0.2) 14px,
+    rgba(234, 179, 8, 0.2) 24px
+  );
+  opacity: 0.7;
 }
 
 .wagon-track__rails {
