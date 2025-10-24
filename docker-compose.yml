@@ -50,7 +50,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "8880:80"
+      - "8881:80"
     networks:
       - appnet
 
