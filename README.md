@@ -45,6 +45,7 @@ When deploying to a public URL (Coolify, Docker hosts, etc.), make sure to:
 - Adjust `VITE_API_BASE` in `frontend/.env` (or build args) to point to the public backend URL.
 - Configure SSL termination at your reverse proxy/load balancer for HTTPS.
 - Optionally enable OpenTelemetry (`ENABLE_OTEL=true`) so you can observe production traffic in SigNoz.
+- Alembic migrations run automatically on backend startup. Ensure new migration files are committed so schema changes apply on deploy.
 
 ## Local Development (non-container)
 
@@ -118,6 +119,7 @@ Backend configuration is driven by environment variables:
 - `CORS_ORIGINS` – Comma-separated list of allowed origins (defaults to `http://localhost:5173` in dev and `http://localhost:8080` in Compose; set to your public domain for production).
 - `ENABLE_OTEL` – Toggle OpenTelemetry instrumentation (`false` by default).
 - `OTEL_EXPORTER_OTLP_*` – Configure SigNoz/OTLP exporter details.
+- Alembic runs on startup; generate new migrations with `alembic revision --autogenerate -m "<message>"` inside `backend/`.
 
 Frontend configuration uses Vite variables at build time:
 
