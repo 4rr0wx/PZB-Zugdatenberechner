@@ -122,8 +122,8 @@ input[type="number"] {
     grid-template-areas:
       "trains summary"
       "form summary"
-      "form track"
-      "wagons track";
+      "track track"
+      "wagons wagons";
     align-items: start;
   }
 
