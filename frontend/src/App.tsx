@@ -12,6 +12,7 @@ import {
 } from "./api";
 import type { Train, TrainCalculation, Wagon, WagonPayload, TrainPayload } from "./types";
 import WagonTrack from "./components/WagonTrack";
+import SplashScreen from "./components/SplashScreen";
 
 interface WagonFormState extends WagonPayload {}
 
@@ -37,6 +38,7 @@ function App() {
   const [newTrainForm, setNewTrainForm] = useState<TrainPayload>({ name: "", description: "" });
   const [cloneCount, setCloneCount] = useState<number>(1);
   const [isReordering, setIsReordering] = useState<boolean>(false);
+  const [showSplash, setShowSplash] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
@@ -49,6 +51,8 @@ function App() {
       } catch (err) {
         setError("Konnte Züge nicht laden.");
         console.error(err);
+      } finally {
+        setTimeout(() => setShowSplash(false), 1500);
       }
     })();
   }, []);
@@ -198,13 +202,14 @@ function App() {
 
   return (
     <div className="app">
+      <SplashScreen isReady={!showSplash} />
       <h1>PZB Zudatenberechner</h1>
       <p>Erstelle einen Zug, erfasse Wagen und erhalte die drei PZB-Eingabewerte.</p>
 
       {error && <div className="card error">{error}</div>}
 
       <div className="stack">
-        <div className="card">
+        <div className="card card--trains">
           <h2>Züge</h2>
           <div className="button-row">
             <select
@@ -250,10 +255,15 @@ function App() {
         </div>
 
         {wagons.length > 0 && (
-          <WagonTrack wagons={wagons} onReorder={handleReorderWagons} isReordering={isReordering} />
+          <WagonTrack
+            wagons={wagons}
+            onReorder={handleReorderWagons}
+            isReordering={isReordering}
+            className="card card--track"
+          />
         )}
 
-        <div className="card">
+        <div className="card card--form">
           <h2>Wagen erfassen</h2>
           <div className="stack">
             <div className="field">
@@ -341,7 +351,7 @@ function App() {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card card--wagonlist">
           <h2>Wagenübersicht</h2>
           {wagons.length === 0 ? (
             <p>Noch keine Wagen erfasst.</p>
@@ -364,7 +374,7 @@ function App() {
                   }}
                 />
               </div>
-              <div style={{ overflowX: "auto" }}>
+              <div className="wagons-table-container">
                 <table className="wagons-table">
                   <thead>
                     <tr>
@@ -381,7 +391,7 @@ function App() {
                   </thead>
                   <tbody>
                     {wagons.map((wagon) => (
-                      <tr key={wagon.id}>
+                      <tr key={wagon.id} className="wagons-row">
                         <td>{wagon.position}</td>
                         <td>{wagon.identifier ?? "—"}</td>
                         <td>{wagon.length_m.toFixed(2)}</td>
@@ -407,7 +417,7 @@ function App() {
           )}
         </div>
 
-        <div className="card">
+        <div className="card card--summary">
           <h2>Ergebnis für PZB</h2>
           {calc ? (
             <div className="summary-grid">
