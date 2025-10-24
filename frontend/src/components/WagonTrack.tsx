@@ -77,6 +77,8 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
                           {...dragProvided.draggableProps}
                           {...dragProvided.dragHandleProps}
                           className={`${baseClassNames}${snapshot.isDragging ? " is-dragging" : ""}`}
+                          data-front={isFront}
+                          data-rear={isRear}
                         >
                           <div className="wagon-card__header">
                             <span className="wagon-card__position">{index + 1}</span>
