@@ -300,6 +300,45 @@ input[type="number"] {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
+.type-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: #e2e8f0;
+  color: #1f2937;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.type-pill__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.type-pill--locomotive {
+  background: rgba(59, 130, 246, 0.15);
+  color: #1d4ed8;
+}
+
+.type-pill--control_car {
+  background: rgba(45, 212, 191, 0.18);
+  color: #0f766e;
+}
+
+.type-pill--passenger {
+  background: rgba(168, 85, 247, 0.16);
+  color: #6b21a8;
+}
+
+.type-pill--freight {
+  background: rgba(251, 191, 36, 0.2);
+  color: #92400e;
+}
+
 .summary-label {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
@@ -398,20 +437,20 @@ input[type="number"] {
   align-items: baseline;
 }
 
+.wagon-card__identifier {
+  font-weight: 600;
+  color: #1f2937;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 0.35rem;
+}
+
 .wagon-card__position {
   font-size: 1.25rem;
   font-weight: 700;
   color: #2563eb;
-}
-
-.wagon-card__identifier {
-  font-weight: 600;
-  color: #1f2937;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: right;
 }
 
 .wagon-card__metrics,

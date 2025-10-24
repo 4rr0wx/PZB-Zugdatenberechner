@@ -1,7 +1,15 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
+
+
+class WagonType(str, Enum):
+    LOCOMOTIVE = "locomotive"
+    CONTROL_CAR = "control_car"
+    PASSENGER = "passenger"
+    FREIGHT = "freight"
 
 
 class TrainBase(SQLModel):
@@ -44,6 +52,10 @@ class WagonBase(SQLModel):
     braked_weight_t: float = Field(ge=0, description="Braked weight in tons")
     brake_type: Optional[str] = Field(default=None, max_length=50, description="e.g. G/P/R")
     axle_count: Optional[int] = Field(default=None, ge=0)
+    wagon_type: WagonType = Field(
+        default=WagonType.FREIGHT,
+        description="Type of wagon (locomotive, control_car, passenger, freight)",
+    )
 
     @property
     def total_weight_t(self) -> float:
@@ -70,6 +82,7 @@ class WagonUpdate(SQLModel):
     braked_weight_t: Optional[float] = Field(default=None, ge=0)
     brake_type: Optional[str] = Field(default=None, max_length=50)
     axle_count: Optional[int] = Field(default=None, ge=0)
+    wagon_type: Optional[WagonType] = None
 
 
 class WagonRead(WagonBase):

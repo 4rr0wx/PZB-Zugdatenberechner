@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
-import type { Wagon } from "../types";
+import type { Wagon, WagonType } from "../types";
+
+const TYPE_META: Record<WagonType, { icon: string; shortLabel: string; label: string }> = {
+  locomotive: { icon: "🚂", shortLabel: "Lok", label: "Lokomotive" },
+  control_car: { icon: "🛤️", shortLabel: "Steuer", label: "Steuerwagen" },
+  passenger: { icon: "🚋", shortLabel: "Pass", label: "Personenwagen" },
+  freight: { icon: "🚛", shortLabel: "Güter", label: "Güterwagen" },
+};
 
 interface WagonTrackProps {
   wagons: Wagon[];
@@ -60,8 +67,15 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
                       >
                         <div className="wagon-card__header">
                           <span className="wagon-card__position">{index + 1}</span>
-                          <span className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</span>
+                          <span
+                            className={`type-pill type-pill--${wagon.wagon_type}`}
+                            title={TYPE_META[wagon.wagon_type].label}
+                          >
+                            <span className="type-pill__icon">{TYPE_META[wagon.wagon_type].icon}</span>
+                            {TYPE_META[wagon.wagon_type].shortLabel}
+                          </span>
                         </div>
+                        <div className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</div>
                         <div className="wagon-card__metrics">
                           <span>{wagon.length_m.toFixed(1)} m</span>
                           <span>{(wagon.tare_weight_t + wagon.load_weight_t).toFixed(0)} t</span>

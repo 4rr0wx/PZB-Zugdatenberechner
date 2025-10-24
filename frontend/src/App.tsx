@@ -10,11 +10,25 @@ import {
   listWagons,
   reorderWagons,
 } from "./api";
-import type { Train, TrainCalculation, Wagon, WagonPayload, TrainPayload } from "./types";
+import type {
+  Train,
+  TrainCalculation,
+  Wagon,
+  WagonPayload,
+  TrainPayload,
+  WagonType,
+} from "./types";
 import WagonTrack from "./components/WagonTrack";
 import SplashScreen from "./components/SplashScreen";
 
 interface WagonFormState extends WagonPayload {}
+
+const WAGON_TYPE_OPTIONS: Array<{ value: WagonType; label: string }> = [
+  { value: "locomotive", label: "Lokomotive" },
+  { value: "control_car", label: "Steuerwagen" },
+  { value: "passenger", label: "Personenwagen" },
+  { value: "freight", label: "Güterwagen" },
+];
 
 const emptyWagonPayload: WagonFormState = {
   position: 1,
@@ -25,6 +39,7 @@ const emptyWagonPayload: WagonFormState = {
   braked_weight_t: 20,
   brake_type: "P",
   axle_count: 4,
+  wagon_type: "freight",
 };
 
 function App() {
@@ -195,7 +210,7 @@ function App() {
     }
   };
 
-  const selectedTrain = useMemo(
+const selectedTrain = useMemo(
     () => trains.find((train) => train.id === selectedTrainId) ?? null,
     [trains, selectedTrainId],
   );
@@ -363,6 +378,21 @@ function App() {
                 onChange={(event) => setWagonForm((prev) => ({ ...prev, axle_count: Number(event.target.value) }))}
               />
             </div>
+            <div className="field">
+              <label>Wagentyp</label>
+              <select
+                value={wagonForm.wagon_type}
+                onChange={(event) =>
+                  setWagonForm((prev) => ({ ...prev, wagon_type: event.target.value as WagonType }))
+                }
+              >
+                {WAGON_TYPE_OPTIONS.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="form-actions">
             <button className="primary-button primary-button--wide" onClick={handleCreateWagon} disabled={isLoading}>
@@ -416,6 +446,7 @@ function App() {
                     <tr>
                       <th>#</th>
                       <th>Wagennummer</th>
+                      <th>Typ</th>
                       <th>Länge (m)</th>
                       <th>Leergewicht (t)</th>
                       <th>Ladegewicht (t)</th>
@@ -430,6 +461,11 @@ function App() {
                       <tr key={wagon.id} className="wagons-row">
                         <td>{wagon.position}</td>
                         <td>{wagon.identifier ?? "—"}</td>
+                        <td>
+                          <span className={`type-pill type-pill--${wagon.wagon_type}`}>
+                            {getWagonTypeLabel(wagon.wagon_type)}
+                          </span>
+                        </td>
                         <td>{wagon.length_m.toFixed(2)}</td>
                         <td>{wagon.tare_weight_t.toFixed(2)}</td>
                         <td>{wagon.load_weight_t.toFixed(2)}</td>
@@ -468,6 +504,7 @@ function sanitizeWagonPayload(payload: WagonFormState): WagonPayload {
     braked_weight_t: Number(payload.braked_weight_t),
     brake_type: payload.brake_type ?? "P",
     axle_count: payload.axle_count ?? undefined,
+    wagon_type: payload.wagon_type,
   };
 }
 
@@ -479,6 +516,20 @@ function validateWagon(payload: WagonPayload): boolean {
     payload.load_weight_t >= 0 &&
     payload.braked_weight_t >= 0
   );
+}
+
+function getWagonTypeLabel(type: WagonType): string {
+  switch (type) {
+    case "locomotive":
+      return "Lokomotive";
+    case "control_car":
+      return "Steuerwagen";
+    case "passenger":
+      return "Personenwagen";
+    case "freight":
+    default:
+      return "Güterwagen";
+  }
 }
 
 export default App;

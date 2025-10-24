@@ -183,6 +183,7 @@ def clone_wagon(
             braked_weight_t=source.braked_weight_t,
             brake_type=source.brake_type,
             axle_count=source.axle_count,
+            wagon_type=source.wagon_type,
         )
         session.add(clone)
         clones.append(clone)

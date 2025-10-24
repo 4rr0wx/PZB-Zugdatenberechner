@@ -9,6 +9,8 @@ export interface TrainPayload {
   description?: string;
 }
 
+export type WagonType = "locomotive" | "control_car" | "passenger" | "freight";
+
 export interface Wagon {
   id: number;
   train_id: number;
@@ -20,6 +22,7 @@ export interface Wagon {
   braked_weight_t: number;
   brake_type?: string | null;
   axle_count?: number | null;
+  wagon_type: WagonType;
 }
 
 export interface WagonPayload
