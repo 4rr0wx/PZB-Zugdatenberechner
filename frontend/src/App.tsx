@@ -199,7 +199,12 @@ function App() {
     setIsReordering(true);
     try {
       await reorderWagons(selectedTrainId, orderedIds);
-      await reloadWagons(selectedTrainId);
+      const updated = await listWagons(selectedTrainId);
+      setWagons(updated);
+      setWagonForm((prev) => ({
+        ...prev,
+        position: updated.length + 1,
+      }));
       setError(null);
     } catch (err) {
       setError("Neue Wagenreihenfolge konnte nicht gespeichert werden.");

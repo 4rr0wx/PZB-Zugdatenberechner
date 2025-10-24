@@ -574,6 +574,14 @@ input[type="number"] {
   max-width: 200px;
 }
 
+.panel--wagons .table-wrapper {
+  width: 100%;
+}
+
+.panel--wagons {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 768px) {
   .panel {
     padding: 1.25rem;
