@@ -81,6 +81,61 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
                           data-front={isFront}
                           data-rear={isRear}
                         >
+                          {wagon.wagon_type === "locomotive" && (
+                            <svg
+                              className="wagon-card__pantograph"
+                              viewBox="0 0 120 80"
+                              role="presentation"
+                              focusable="false"
+                              aria-hidden="true"
+                            >
+                              <polyline
+                                points="20 56 60 18 100 56"
+                                stroke="#1d4ed8"
+                                strokeWidth="6"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                fill="none"
+                              />
+                              <polyline
+                                points="30 56 60 34 90 56"
+                                stroke="#1d4ed8"
+                                strokeWidth="4"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                fill="none"
+                              />
+                              <line
+                                x1="34"
+                                y1="16"
+                                x2="86"
+                                y2="16"
+                                stroke="#1d4ed8"
+                                strokeWidth="6"
+                                strokeLinecap="round"
+                              />
+                              <line
+                                x1="44"
+                                y1="62"
+                                x2="76"
+                                y2="62"
+                                stroke="#1f2937"
+                                strokeWidth="6"
+                                strokeLinecap="round"
+                              />
+                              <line
+                                x1="60"
+                                y1="62"
+                                x2="60"
+                                y2="76"
+                                stroke="#1f2937"
+                                strokeWidth="5"
+                                strokeLinecap="round"
+                              />
+                              <circle cx="48" cy="62" r="4" fill="#475569" />
+                              <circle cx="72" cy="62" r="4" fill="#475569" />
+                            </svg>
+                          )}
                           <div className="wagon-card__header">
                             <span className="wagon-card__position">{index + 1}</span>
                             <span

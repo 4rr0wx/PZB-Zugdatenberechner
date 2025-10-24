@@ -442,6 +442,30 @@ input[type="number"] {
   transform: rotate(-1deg) scale(1.01);
 }
 
+.wagon-card--locomotive {
+  overflow: visible;
+}
+
+.wagon-card__pantograph {
+  position: absolute;
+  top: -46px;
+  left: 50%;
+  width: 92px;
+  height: 72px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.wagon-card__pantograph line,
+.wagon-card__pantograph polyline {
+  filter: drop-shadow(0 3px 4px rgba(30, 64, 175, 0.15));
+}
+
+.wagon-card__pantograph circle {
+  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.18));
+}
+
 .wagon-card__header {
   display: flex;
   justify-content: space-between;
@@ -475,8 +499,7 @@ input[type="number"] {
 .wagon-card--locomotive::before,
 .wagon-card--control_car::before,
 .wagon-card--passenger::after,
-.wagon-card--freight::before,
-.wagon-card--locomotive::after {
+.wagon-card--freight::before {
   content: "";
   position: absolute;
   pointer-events: none;
@@ -486,17 +509,6 @@ input[type="number"] {
   inset: 0.7rem 0.75rem;
   border-radius: 10px;
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0));
-}
-
-.wagon-card--locomotive::after {
-  top: -10px;
-  left: 50%;
-  width: 44px;
-  height: 14px;
-  border-radius: 10px;
-  transform: translateX(-50%);
-  border: 3px solid rgba(59, 130, 246, 0.45);
-  background: rgba(226, 232, 240, 0.2);
 }
 
 .wagon-card--control_car::before {
