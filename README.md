@@ -36,6 +36,7 @@ Services:
 
 The frontend container includes an Nginx reverse proxy that forwards `/api/*` requests to the backend, so no extra proxy is required.
 
+
 ### Public Hosting Checklist
 
 When deploying to a public URL (Coolify, Docker hosts, etc.), make sure to:
