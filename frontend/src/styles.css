@@ -472,130 +472,79 @@ input[type="number"] {
   color: #475569;
 }
 
-.wagon-card::after,
-.wagon-card::before {
+.wagon-card--locomotive::before,
+.wagon-card--control_car::before,
+.wagon-card--passenger::after,
+.wagon-card--freight::before,
+.wagon-card--locomotive::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
 
 .wagon-card--locomotive::before {
-  top: -14px;
-  left: 50%;
-  width: 56px;
-  height: 16px;
+  inset: 0.7rem 0.75rem;
   border-radius: 10px;
-  border: 3px solid rgba(148, 163, 184, 0.85);
-  transform: translateX(-50%);
-  background: transparent;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.25);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0));
 }
 
 .wagon-card--locomotive::after {
-  top: -2px;
+  top: -10px;
   left: 50%;
   width: 44px;
-  height: 18px;
-  transform: translateX(-50%);
+  height: 14px;
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.65), rgba(37, 99, 235, 0.35));
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
-}
-.wagon-card--control_car::before {
-  content: "";
-  position: absolute;
-  width: 88px;
-  height: 88px;
-  top: -26px;
-  right: -44px;
-  background: radial-gradient(circle at 40% 40%, rgba(240, 255, 255, 0.9) 0%, transparent 72%);
-  transform: rotate(-18deg);
+  transform: translateX(-50%);
+  border: 3px solid rgba(59, 130, 246, 0.45);
+  background: rgba(226, 232, 240, 0.2);
 }
 
-.wagon-card--control_car::after {
-  bottom: -8px;
-  left: -6px;
-  width: 120px;
-  height: 40px;
-  background: linear-gradient(115deg, rgba(15, 23, 42, 0.25), transparent 72%);
-  transform: rotate(8deg);
+.wagon-card--control_car::before {
+  inset: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(15, 118, 110, 0));
 }
+
 .wagon-card--passenger::after {
-  content: "";
-  position: absolute;
   left: 1.1rem;
-  bottom: 0.7rem;
-  width: 28px;
-  height: 42px;
+  bottom: 0.75rem;
+  width: 26px;
+  height: 40px;
   border-radius: 4px 4px 6px 6px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(226, 232, 240, 0.55));
-  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.25), 0 2px 4px rgba(30, 27, 75, 0.15);
+  background: linear-gradient(160deg, rgba(79, 70, 229, 0.12), rgba(79, 70, 229, 0.02));
+  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.15);
 }
 
 .wagon-card--freight::before {
-  inset: 0.5rem;
-  border-radius: 8px;
+  inset: 0.65rem 0.9rem;
+  border-radius: 10px;
   background: repeating-linear-gradient(
     to right,
-    rgba(30, 41, 59, 0.18) 0,
-    rgba(30, 41, 59, 0.18) 14px,
-    rgba(234, 179, 8, 0.2) 14px,
-    rgba(234, 179, 8, 0.2) 24px
+    rgba(234, 179, 8, 0.1) 0,
+    rgba(234, 179, 8, 0.1) 18px,
+    rgba(55, 65, 81, 0.05) 18px,
+    rgba(55, 65, 81, 0.05) 34px
   );
-  opacity: 0.7;
-}
-
-.wagon-card--cab-front::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
-  opacity: 0.25;
+  opacity: 0.8;
 }
 
 .wagon-card--cab-front {
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-  mask-image: linear-gradient(110deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
+  -webkit-clip-path: polygon(0 50%, 15% 0, 100% 0, 100% 100%, 15% 100%);
+  clip-path: polygon(0 50%, 15% 0, 100% 0, 100% 100%, 15% 100%);
+  padding-left: 1.25rem;
 }
 
 .wagon-card--cab-rear {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-  mask-image: linear-gradient(-110deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
+  -webkit-clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  padding-right: 1.25rem;
 }
 
-.wagon-card--cab-front .wagon-card__header,
-.wagon-card--cab-front .wagon-card__identifier,
-.wagon-card--cab-front .wagon-card__metrics span,
-.wagon-card--cab-front .wagon-card__footer span,
-.wagon-card--cab-rear .wagon-card__header,
-.wagon-card--cab-rear .wagon-card__identifier,
-.wagon-card--cab-rear .wagon-card__metrics span,
-.wagon-card--cab-rear .wagon-card__footer span {
-  color: inherit;
-}
-
-.wagon-card--locomotive .wagon-card__identifier,
-.wagon-card--control_car .wagon-card__identifier,
-.wagon-card--passenger .wagon-card__identifier,
-.wagon-card--freight .wagon-card__identifier,
-.wagon-card--locomotive .wagon-card__metrics span,
-.wagon-card--control_car .wagon-card__metrics span,
-.wagon-card--passenger .wagon-card__metrics span,
-.wagon-card--freight .wagon-card__metrics span,
-.wagon-card--locomotive .wagon-card__footer span,
-.wagon-card--control_car .wagon-card__footer span,
-.wagon-card--passenger .wagon-card__footer span,
-.wagon-card--freight .wagon-card__footer span {
-  color: inherit;
-}
-
-.wagon-card--locomotive .wagon-card__metrics span,
-.wagon-card--passenger .wagon-card__metrics span,
-.wagon-card--control_car .wagon-card__metrics span,
-.wagon-card--freight .wagon-card__metrics span {
-  color: rgba(255, 255, 255, 0.9);
+.wagon-card--cab-front.wagon-card--cab-rear {
+  -webkit-clip-path: polygon(15% 0, 85% 0, 100% 50%, 85% 100%, 15% 100%, 0 50%);
+  clip-path: polygon(15% 0, 85% 0, 100% 50%, 85% 100%, 15% 100%, 0 50%);
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .wagon-track__rails {
