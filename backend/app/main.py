@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .api.routes import router
 from .core.config import get_settings
 from .core.database import engine, init_db
+from .core.migrations import upgrade_head
 from .telemetry import configure_telemetry
 
 settings = get_settings()
@@ -24,6 +25,7 @@ configure_telemetry(app=app, engine=engine)
 @app.on_event("startup")
 def on_startup() -> None:
     init_db()
+    upgrade_head()
 
 
 @app.get("/healthz")
