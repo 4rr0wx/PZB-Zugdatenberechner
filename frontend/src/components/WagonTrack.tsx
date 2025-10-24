@@ -51,44 +51,58 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
           <Droppable droppableId="wagons" direction="horizontal">
             {(provided) => (
               <div className="wagon-track__lane" ref={provided.innerRef} {...provided.droppableProps}>
-                {items.map((wagon, index) => (
-                  <Draggable
-                    key={wagon.id}
-                    draggableId={String(wagon.id)}
-                    index={index}
-                    isDragDisabled={isReordering}
-                  >
-                    {(dragProvided, snapshot) => (
-                      <div
-                        ref={dragProvided.innerRef}
-                        {...dragProvided.draggableProps}
-                        {...dragProvided.dragHandleProps}
-                        className={`wagon-card wagon-card--${wagon.wagon_type}${snapshot.isDragging ? " is-dragging" : ""}`}
-                      >
-                        <div className="wagon-card__header">
-                          <span className="wagon-card__position">{index + 1}</span>
-                          <span
-                            className={`type-pill type-pill--${wagon.wagon_type}`}
-                            title={TYPE_META[wagon.wagon_type].label}
-                          >
-                            <span className="type-pill__icon">{TYPE_META[wagon.wagon_type].icon}</span>
-                            {TYPE_META[wagon.wagon_type].shortLabel}
-                          </span>
+                {items.map((wagon, index) => {
+                  const isFront = index === 0;
+                  const isRear = index === items.length - 1;
+                  const isCab = wagon.wagon_type === "locomotive" || wagon.wagon_type === "control_car";
+                  const baseClassNames = [
+                    "wagon-card",
+                    `wagon-card--${wagon.wagon_type}`,
+                    isCab && isFront ? "wagon-card--cab-front" : "",
+                    isCab && isRear ? "wagon-card--cab-rear" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+
+                  return (
+                    <Draggable
+                      key={wagon.id}
+                      draggableId={String(wagon.id)}
+                      index={index}
+                      isDragDisabled={isReordering}
+                    >
+                      {(dragProvided, snapshot) => (
+                        <div
+                          ref={dragProvided.innerRef}
+                          {...dragProvided.draggableProps}
+                          {...dragProvided.dragHandleProps}
+                          className={`${baseClassNames}${snapshot.isDragging ? " is-dragging" : ""}`}
+                        >
+                          <div className="wagon-card__header">
+                            <span className="wagon-card__position">{index + 1}</span>
+                            <span
+                              className={`type-pill type-pill--${wagon.wagon_type}`}
+                              title={TYPE_META[wagon.wagon_type].label}
+                            >
+                              <span className="type-pill__icon">{TYPE_META[wagon.wagon_type].icon}</span>
+                              {TYPE_META[wagon.wagon_type].shortLabel}
+                            </span>
+                          </div>
+                          <div className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</div>
+                          <div className="wagon-card__metrics">
+                            <span>{wagon.length_m.toFixed(1)} m</span>
+                            <span>{(wagon.tare_weight_t + wagon.load_weight_t).toFixed(0)} t</span>
+                            <span>BrH: {wagon.braked_weight_t.toFixed(0)}</span>
+                          </div>
+                          <div className="wagon-card__footer">
+                            <span>Bremse: {wagon.brake_type ?? "?"}</span>
+                            <span>Achs.: {wagon.axle_count ?? "?"}</span>
+                          </div>
                         </div>
-                        <div className="wagon-card__identifier">{wagon.identifier ?? "Wagen"}</div>
-                        <div className="wagon-card__metrics">
-                          <span>{wagon.length_m.toFixed(1)} m</span>
-                          <span>{(wagon.tare_weight_t + wagon.load_weight_t).toFixed(0)} t</span>
-                          <span>BrH: {wagon.braked_weight_t.toFixed(0)}</span>
-                        </div>
-                        <div className="wagon-card__footer">
-                          <span>Bremse: {wagon.brake_type ?? "?"}</span>
-                          <span>Achs.: {wagon.axle_count ?? "?"}</span>
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
