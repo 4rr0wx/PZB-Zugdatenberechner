@@ -487,9 +487,9 @@ input[type="number"] {
 .wagon-card--locomotive::before {
   top: -14px;
   left: 50%;
-  width: 70px;
-  height: 24px;
-  border-radius: 12px;
+  width: 56px;
+  height: 16px;
+  border-radius: 10px;
   border: 3px solid rgba(148, 163, 184, 0.85);
   transform: translateX(-50%);
   background: transparent;
@@ -589,19 +589,21 @@ input[type="number"] {
 }
 
 .wagon-card--cab-front {
-  clip-path: polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%);
-  padding-right: 1.35rem;
+  mask-image: linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+  padding-left: 1.5rem;
 }
 
 .wagon-card--cab-rear {
-  clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 12% 100%, 0% 50%);
-  padding-left: 1.35rem;
+  mask-image: linear-gradient(-45deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+  padding-right: 1.5rem;
 }
 
 .wagon-card--cab-front.wagon-card--cab-rear {
-  clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
-  padding-left: 1.35rem;
-  padding-right: 1.35rem;
+  mask-image:
+    linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 92%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 92%);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .wagon-card--locomotive .wagon-card__identifier,

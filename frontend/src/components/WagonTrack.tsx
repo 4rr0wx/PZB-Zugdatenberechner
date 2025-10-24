@@ -52,14 +52,14 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
             {(provided) => (
               <div className="wagon-track__lane" ref={provided.innerRef} {...provided.droppableProps}>
                 {items.map((wagon, index) => {
-                  const isFront = index === 0;
-                  const isRear = index === items.length - 1;
                   const isCab = wagon.wagon_type === "locomotive" || wagon.wagon_type === "control_car";
+                  const isFront = index === 0 && isCab;
+                  const isRear = index === items.length - 1 && isCab;
                   const baseClassNames = [
                     "wagon-card",
                     `wagon-card--${wagon.wagon_type}`,
-                    isCab && isFront ? "wagon-card--cab-front" : "",
-                    isCab && isRear ? "wagon-card--cab-rear" : "",
+                    isFront ? "wagon-card--cab-front" : "",
+                    isRear ? "wagon-card--cab-rear" : "",
                   ]
                     .filter(Boolean)
                     .join(" ");
