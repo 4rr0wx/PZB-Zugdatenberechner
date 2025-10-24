@@ -203,15 +203,20 @@ function App() {
   return (
     <div className="app">
       <SplashScreen isReady={!showSplash} />
-      <h1>PZB Zudatenberechner</h1>
-      <p>Erstelle einen Zug, erfasse Wagen und erhalte die drei PZB-Eingabewerte.</p>
 
-      {error && <div className="card error">{error}</div>}
+      <header className="app__hero">
+        <h1>PZB Zudatenberechner</h1>
+        <p>
+          Komponiere deinen Zug, klone identische Wagen und erhalte auf einen Blick die drei relevanten PZB-Werte.
+        </p>
+      </header>
 
-      <div className="stack">
-        <div className="card card--trains">
+      {error && <div className="alert">{error}</div>}
+
+      <main className="layout">
+        <section className="panel panel--trains">
           <h2>Züge</h2>
-          <div className="button-row">
+          <div className="train-selector">
             <select
               value={selectedTrainId ?? ""}
               onChange={(event) => {
@@ -232,7 +237,7 @@ function App() {
               </button>
             )}
           </div>
-          <div className="stack" style={{ marginTop: "1rem" }}>
+          <div className="form-grid form-grid--compact">
             <div className="field">
               <label>Zugname</label>
               <input
@@ -248,24 +253,37 @@ function App() {
                 onChange={(event) => setNewTrainForm((prev) => ({ ...prev, description: event.target.value }))}
               />
             </div>
-            <button className="primary-button" onClick={handleCreateTrain}>
+            <button className="primary-button primary-button--wide" onClick={handleCreateTrain}>
               Zug hinzufügen
             </button>
           </div>
-        </div>
+        </section>
 
-        {wagons.length > 0 && (
-          <WagonTrack
-            wagons={wagons}
-            onReorder={handleReorderWagons}
-            isReordering={isReordering}
-            className="card card--track"
-          />
-        )}
+        <section className="panel panel--summary">
+          <h2>PZB Werte</h2>
+          {calc ? (
+            <div className="summary-grid">
+              <div className="summary-item">
+                <div className="summary-label">Zuglänge</div>
+                <div className="summary-value">{calc.train_length_m.toFixed(2)} m</div>
+              </div>
+              <div className="summary-item">
+                <div className="summary-label">Zuggewicht</div>
+                <div className="summary-value">{calc.train_weight_t.toFixed(2)} t</div>
+              </div>
+              <div className="summary-item">
+                <div className="summary-label">Bremshundertstel</div>
+                <div className="summary-value">{calc.braking_percentage.toFixed(2)} ‰</div>
+              </div>
+            </div>
+          ) : (
+            <p>Erfasse Wagen, um Länge, Gewicht und Bremshundertstel zu berechnen.</p>
+          )}
+        </section>
 
-        <div className="card card--form">
+        <section className="panel panel--form">
           <h2>Wagen erfassen</h2>
-          <div className="stack">
+          <div className="form-grid">
             <div className="field">
               <label>Position</label>
               <input
@@ -345,36 +363,54 @@ function App() {
                 onChange={(event) => setWagonForm((prev) => ({ ...prev, axle_count: Number(event.target.value) }))}
               />
             </div>
-            <button className="primary-button" onClick={handleCreateWagon} disabled={isLoading}>
+          </div>
+          <div className="form-actions">
+            <button className="primary-button primary-button--wide" onClick={handleCreateWagon} disabled={isLoading}>
               Wagen hinzufügen
             </button>
           </div>
-        </div>
+        </section>
 
-        <div className="card card--wagonlist">
-          <h2>Wagenübersicht</h2>
+        {wagons.length > 0 ? (
+          <WagonTrack
+            wagons={wagons}
+            onReorder={handleReorderWagons}
+            isReordering={isReordering}
+            className="panel panel--track"
+          />
+        ) : (
+          <section className="panel panel--track panel--placeholder">
+            <h2>Grafische Wagenübersicht</h2>
+            <p>Füge Wagen hinzu, um die Positionen per Drag &amp; Drop zu sortieren.</p>
+          </section>
+        )}
+
+        <section className="panel panel--wagons">
+          <h2>Wagenliste</h2>
           {wagons.length === 0 ? (
             <p>Noch keine Wagen erfasst.</p>
           ) : (
             <>
-              <div className="field" style={{ maxWidth: "200px" }}>
-                <label>Anzahl beim Klonen</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={cloneCount}
-                  onChange={(event) => {
-                    const value = Number(event.target.value);
-                    if (Number.isNaN(value)) {
-                      setCloneCount(1);
-                      return;
-                    }
-                    setCloneCount(Math.max(1, Math.min(20, value)));
-                  }}
-                />
+              <div className="form-grid form-grid--compact">
+                <div className="field">
+                  <label>Anzahl beim Klonen</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={20}
+                    value={cloneCount}
+                    onChange={(event) => {
+                      const value = Number(event.target.value);
+                      if (Number.isNaN(value)) {
+                        setCloneCount(1);
+                        return;
+                      }
+                      setCloneCount(Math.max(1, Math.min(20, value)));
+                    }}
+                  />
+                </div>
               </div>
-              <div className="wagons-table-container">
+              <div className="table-wrapper">
                 <table className="wagons-table">
                   <thead>
                     <tr>
@@ -415,30 +451,8 @@ function App() {
               </div>
             </>
           )}
-        </div>
-
-        <div className="card card--summary">
-          <h2>Ergebnis für PZB</h2>
-          {calc ? (
-            <div className="summary-grid">
-              <div className="summary-item">
-                <div className="summary-label">Zuglänge</div>
-                <div className="summary-value">{calc.train_length_m.toFixed(2)} m</div>
-              </div>
-              <div className="summary-item">
-                <div className="summary-label">Zuggewicht</div>
-                <div className="summary-value">{calc.train_weight_t.toFixed(2)} t</div>
-              </div>
-              <div className="summary-item">
-                <div className="summary-label">Bremshundertstel</div>
-                <div className="summary-value">{calc.braking_percentage.toFixed(2)} ‰</div>
-              </div>
-            </div>
-          ) : (
-            <p>Bitte Wagen erfassen, um die Werte zu berechnen.</p>
-          )}
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }

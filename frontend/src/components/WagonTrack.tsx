@@ -36,7 +36,7 @@ const WagonTrack = ({ wagons, onReorder, isReordering, className }: WagonTrackPr
   };
 
   return (
-    <div className={className ?? "card"}>
+    <div className={className ?? "panel panel--track"}>
       <h2>Grafische Wagenübersicht</h2>
       <p>Ziehe Wagen, um die Reihenfolge zu ändern. Änderungen werden direkt übernommen.</p>
       <div className={`wagon-track${isReordering ? " is-reordering" : ""}`}>
